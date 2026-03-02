@@ -1,0 +1,57 @@
+
+---
+
+# Formalizing the Insolubility of $x^2 + y^2 = 3$ in Lean 4
+
+This repository contains a Lean 4 formalization proving that the equation $x^2 + y^2 = 3$ has no solutions over the integers ($\mathbb{Z}$) and the rationals ($\mathbb{Q}$).
+
+The proofs leverage modular arithmetic, properties of greatest common divisors, and proof by contradiction (specifically relying on parity and primitivity).
+
+## Main Theorems
+
+The project is anchored by two central theorems:
+
+1. **`no_int_solutions_x2_add_y2_eq_three`**: Establishes that $\neg \exists x, y \in \mathbb{Z}, x^2 + y^2 = 3$.
+2. **`no_rat_solutions_x2_add_y2_eq_three`**: Establishes that $\neg \exists x, y \in \mathbb{Q}, x^2 + y^2 = 3$.
+
+## Key Ideas of the Proof
+
+### 1. Arithmetic in $\mathbb{Z}/4\mathbb{Z}$
+
+The foundation of the integer proof relies on analyzing squares modulo 4.
+
+* **Squares Modulo 4:** Any integer squared is congruent to either $0$ or $1$ modulo $4$.
+* **Sums of Squares:** Consequently, the sum of two squares modulo $4$ can only evaluate to $0$, $1$, or $2$. It can never equal $3$.
+* **Integer Contradiction:** Reducing the equation $x^2 + y^2 = 3$ modulo $4$ immediately yields a contradiction, as the left side can never equal $3 \pmod 4$.
+
+### 2. Clearing Denominators for the Rational Case
+
+To prove the rational case, the problem is translated back into the realm of integers:
+
+* Assuming there are rational solutions $x$ and $y$, they can be expressed as fractions.
+* By finding a common denominator $d$, the equation $x^2 + y^2 = 3$ can be rewritten purely in integers as $p^2 + q^2 = 3d^2$, where $p$ and $q$ are the adjusted numerators.
+
+### 3. Primitivity and Infinite Descent
+
+With the integer equation $p^2 + q^2 = 3d^2$ established, the proof demonstrates that no such integer triplet $(p, q, d)$ can exist:
+
+* **Reduction to a Primitive Solution:** If a solution exists, one can divide $p$, $q$, and $d$ by their greatest common divisor to obtain a *primitive* solution $(p', q', d')$. In a primitive solution, the three integers share no common factor greater than $1$.
+* **Parity Analysis:** * If $d'$ were odd, $(d')^2 \equiv 1 \pmod 4$, reducing the equation to $(p')^2 + (q')^2 \equiv 3 \pmod 4$, which is impossible. Therefore, $d'$ must be even.
+* Because $d'$ is even, $3(d')^2 \equiv 0 \pmod 4$.
+* This forces $(p')^2 + (q')^2 \equiv 0 \pmod 4$. The only way two squares sum to $0 \pmod 4$ is if both are individually $0 \pmod 4$.
+* This means both $p'$ and $q'$ must also be even.
+
+
+* **The Contradiction:** If $p'$, $q'$, and $d'$ are all even, they share a common factor of $2$. This directly contradicts the fact that they form a primitive solution, thus proving that no rational solutions can exist.
+
+## Current Status and Open Lemmas
+
+The overarching logical structure of the rational impossibility proof is complete, but a few helper lemmas regarding greatest common divisors and primitive triplets are currently stubbed with `sorry`:
+
+* `asqeqbsq_implies_abydsqeqbbydsq_wheredisgcd`: Proving that dividing squares by their GCD yields a valid equality.
+* `ifabcsolution_thennewsolutionbydividinggcd3`: Proving the algebraic equivalence when dividing the triplet equation by the 3-way GCD.
+* `dividingby3numbersbygcd_makesprimitive`: Formalizing that dividing three numbers by their collective GCD results in a triplet with no common factors $> 1$.
+
+---
+
+Would you like me to help you complete the proofs for any of the remaining `sorry` helper lemmas, such as the one establishing primitivity after dividing by the GCD?
